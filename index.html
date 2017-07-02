@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Курс биткоинов на Vue.js</title>
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic-ext" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+	<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+	<div class="text-center">
+		<h1>Курс биткоинов</h1>
+	</div>
+
+	<div id="blockchain-rate-table">
+		<table v-cloak class="table-rates" cellpadding="0" cellpadding="0">
+			<thead>
+				<tr>
+					<th>Валюта</th>
+					<th>15 Мин.</th>
+					<th>Последнее</th>
+					<th>Покупка</th>
+					<th>Продажа</th>
+				</tr>
+			</thead>
+			<tbody v-if="!ticker_error_text">
+				<tr v-for="(rate, index) in ticker_data">
+					<td><b>{{ index }}</b></td>
+					<td>{{ rate['15m']  | moneyFormat }} {{ rate['symbol'] }}</td>
+					<td>{{ rate['last'] | moneyFormat }} {{ rate['symbol'] }}</td>
+					<td>{{ rate['buy']  | moneyFormat }} {{ rate['symbol'] }}</td>
+					<td>{{ rate['sell'] | moneyFormat }} {{ rate['symbol'] }}</td>
+				</tr>
+			</tbody>
+			<tbody v-else>
+				<td colspan="5" class="text-center"><b>Ошибка!</b> <br> {{ ticker_error_text }} </td>
+			</tbody>
+		</table>
+		<div class="text-center">
+			<button v-on:click="updateRates" class="btn-update">Обновить</button>
+		</div>
+	</div>
+
+	<script src="main.js"></script>
+</body>
+</html>
